@@ -1,45 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>6PM Countdown</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: #fafafa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .timer {
+            text-align: center;
+        }
+
+        .timer h2 {
+            font-size: 28px;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+
+        #countdown {
+            font-size: 70px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .dog {
+            width: 260px;
+            height: 340px;
+
+            object-fit: cover;
+            object-position: center;
+
+            border-radius: 25px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Phone / smaller screen */
+        @media (max-width: 700px) {
+
+            .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .timer h2 {
+                font-size: 24px;
+            }
+
+            #countdown {
+                font-size: 52px;
+            }
+
+            .dog {
+                width: 220px;
+                height: 290px;
+            }
+        }
+    </style>
+
+</head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-  <div class="timer">
-    <h2>Until 6 PM</h2>
-    <div id="countdown">00:00:00</div>
-  </div>
+        <div class="timer">
+            <h2>Until 6 PM</h2>
 
-  <img src="dog.jpeg" class="dog">
+            <div id="countdown">
+                00:00:00
+            </div>
+        </div>
 
-</div>
+        <img
+            src="dog.jpeg"
+            class="dog"
+            alt="My dog"
+        >
 
-<script>
-function updateCountdown() {
-    const now = new Date();
+    </div>
 
-    let target = new Date();
-    target.setHours(18, 0, 0, 0);
 
-    if (now >= target) {
-        target.setDate(target.getDate() + 1);
-    }
+    <script>
 
-    const difference = target - now;
+        function updateCountdown() {
 
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    const minutes = Math.floor(
-        (difference % (1000 * 60 * 60)) / (1000 * 60)
-    );
-    const seconds = Math.floor(
-        (difference % (1000 * 60)) / 1000
-    );
+            const now = new Date();
 
-    document.getElementById("countdown").textContent =
-        String(hours).padStart(2, "0") + ":" +
-        String(minutes).padStart(2, "0") + ":" +
-        String(seconds).padStart(2, "0");
-}
+            let target = new Date();
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
-</script>
+            // 6:00 PM
+            target.setHours(18, 0, 0, 0);
+
+
+            // If it's already after 6 PM,
+            // count down to 6 PM tomorrow
+            if (now >= target) {
+
+                target.setDate(
+                    target.getDate() + 1
+                );
+
+            }
+
+
+            const difference =
+                target - now;
+
+
+            const hours = Math.floor(
+                difference /
+                (1000 * 60 * 60)
+            );
+
+
+            const minutes = Math.floor(
+                (difference %
+                    (1000 * 60 * 60))
+                /
+                (1000 * 60)
+            );
+
+
+            const seconds = Math.floor(
+                (difference %
+                    (1000 * 60))
+                /
+                1000
+            );
+
+
+            document.getElementById(
+                "countdown"
+            ).textContent =
+
+                String(hours)
+                    .padStart(2, "0")
+
+                + ":" +
+
+                String(minutes)
+                    .padStart(2, "0")
+
+                + ":" +
+
+                String(seconds)
+                    .padStart(2, "0");
+
+        }
+
+
+        // Run immediately
+        updateCountdown();
+
+
+        // Update every second
+        setInterval(
+            updateCountdown,
+            1000
+        );
+
+    </script>
 
 </body>
+
+</html>
